@@ -33,7 +33,7 @@ def svm_loss_naive(W, X, y, reg):
     for j in xrange(num_classes):
       if j == y[i]:
         continue
-      margin = scores[j] - correct_class_score + 1 # note delta = 1
+      margin = scores[j] - correct_class_score + 1 # note delta = 1 (remember that is the margin of svm model but with multi-classes)
 
       if margin > 0:
         loss += margin
@@ -79,7 +79,7 @@ def svm_loss_vectorized(W, X, y, reg):
   num_classes = W.shape[1]
   scores = X.dot(W)
   correct_class_scores = scores[range(num_train), list(y)].reshape(-1,1) #(N, 1)
-  margins = np.maximum(0, scores - correct_class_scores +1)
+  margins = np.maximum(0, scores - correct_class_scores +1) # the margin delta = 1
   margins[range(num_train), list(y)] = 0
   loss = np.sum(margins) / num_train + 0.5* reg * np.sum(W * W)
   #############################################################################
